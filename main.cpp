@@ -129,6 +129,7 @@ int main(int argc, char** argv)
 	bool playMode = true;
 	bool stillImage = false;
 	bool verbose = false;
+	bool useWMS = false;
 	int numMaxLSegs = 0;	
 	bool usePPHT = false;
 
@@ -167,6 +168,15 @@ int main(int argc, char** argv)
 			stillImage = true;
 			useCamera = false;
 		}		
+		else if( strcmp(s,"-useWMS") == 0)
+		{
+			// Using weighet mean-shift enhances result, but is slower
+			const char* ss = argv[++i];
+			if(strcmp(ss, "ON") == 0 || strcmp(ss, "on") == 0
+				|| strcmp(ss, "TRUE") == 0 || strcmp(ss, "true") == 0 
+				|| strcmp(ss, "YES") == 0 || strcmp(ss, "yes") == 0 )
+				useWMS = true;	
+		}
 		else if(strcmp(s, "-numMaxLSegs") == 0)
 		{
 			numMaxLSegs = atoi(argv[++i]);	
@@ -256,7 +266,7 @@ int main(int argc, char** argv)
 	// ---------------------------
 	// Create and init LSWMS
 	int R = 3;
-	LSWMS lswms(procSize, R, numMaxLSegs, verbose);
+	LSWMS lswms(procSize, R, numMaxLSegs, useWMS, verbose);
 	if(numMaxLSegs==0)
 		printf("LSWMS object created: R=%d\n\n", R);
 	else
@@ -327,6 +337,8 @@ int main(int argc, char** argv)
 			printf("Fr.#%d - LSWMS: %d lines / %.0f ms , Ang.Error: (Mean, Std)=(%.2f, %.2f)(deg)\n", frameNum, lSegs.size(), t, mean.val[0]*180/CV_PI, stddev.val[0]*180/CV_PI);
 		else
 			printf("LSWMS: %d segments\nAngular Error: Mean = %.2f (deg), Std = %.2f (deg)\nProcess Time = %.0f (ms)\n", lSegs.size(), mean.val[0]*180/CV_PI, stddev.val[0]*180/CV_PI,  t);
+		if( useWMS )
+			printf("\tUsing Weighted Mean-Shift\n");
 		
 		//lswms.drawLSegs(outputImg, lSegs,CV_RGB(255,0,0), 2);			// drawing all line segments the same
 		lswms.drawLSegs(outputImg, lSegs, errors);				// drawing according to errors
