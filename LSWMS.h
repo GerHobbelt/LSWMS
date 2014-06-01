@@ -32,34 +32,33 @@ enum {RET_OK, RET_ERROR};
 #include "Shiny.h"
 #endif
 
-#define PI_2 CV_PI/2
-
-typedef std::vector<cv::Point> LSEG;
-struct DIR_POINT
-{
-	cv::Point pt;
-	float vx;
-	float vy;
-
-	DIR_POINT(cv::Point _pt, float _vx, float _vy)
-	{
-		pt = _pt;
-		vx = _vx;
-		vy = _vy;
-	};
-	DIR_POINT()
-	{	
-		pt = cv::Point(0,0);
-		vx = 0;
-		vy = 0;
-	}
-
-	void setTo14Quads();
-};
-
 class LSWMS
 {
+	struct DIR_POINT
+	{
+		cv::Point pt;
+		float vx;
+		float vy;
+
+		DIR_POINT(cv::Point _pt, float _vx, float _vy)
+		{
+			pt = _pt;
+			vx = _vx;
+			vy = _vy;
+		};
+		DIR_POINT()
+		{	
+			pt = cv::Point(0,0);
+			vx = 0;
+			vy = 0;
+		}
+
+		void setTo14Quads();
+	};	
+
 public:
+	typedef std::vector<cv::Point> LSEG;
+
 	LSWMS(cv::Size _imSize, int _R, int _numMaxLSegs = 0, bool _useWMS = false, bool _verbose = false);
 	int run(const cv::Mat& _img, std::vector<LSEG>& _lSegs, std::vector<double>& _errors);
 	void drawLSegs( cv::Mat& _img, const std::vector<LSEG>& _lSegs, cv::Scalar _color = CV_RGB(255,0,0), int thickness=1);
@@ -121,6 +120,7 @@ private:
 	static const int NOT_A_VALID_ANGLE = 5;
 	static const float ANGLE_MARGIN;
 	static const float MAX_ERROR;
+	static const double PI_2;
 };
 
 #endif // _LSWMS_H_
