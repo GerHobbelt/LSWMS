@@ -31,6 +31,9 @@
 
 #include "LSWMS.h"
 
+//-image C:\Users\Marcos\Pictures\test\road118.jpg -hough ON
+//-image C:\Users\Marcos\Pictures\test\road.jpg -hough ON
+
 using namespace std;
 using namespace cv;
 
@@ -51,7 +54,7 @@ void help()
          << " * ----------------------------------------------------\n"		 
 		 << " * \n"
 		 << " * Author:Marcos Nieto\n"
-		 << " * www.marcosnieto.net\n"
+		 << " * http://marcosnietoblog.wordpress.com\n"
 		 << " * marcos.nieto.doncel@gmail.com\n"
 		 << " * \n"
 		 << " * Date:01/04/2012\n"
@@ -76,7 +79,7 @@ void help()
 		 << " *		Esc: Quit\n"
          << " */\n" << endl;
 }
-void processPPHT(cv::Mat &img, std::vector<LSEG> &lSegs)
+void processPPHT(const cv::Mat &img, std::vector<LSWMS::LSEG> &lSegs)
 {
 	cv::Mat imgGRAY;
 	cv::cvtColor(img, imgGRAY, CV_RGB2GRAY);
@@ -85,7 +88,7 @@ void processPPHT(cv::Mat &img, std::vector<LSEG> &lSegs)
 	std::vector<cv::Vec4i> lines;
 	cv::HoughLinesP(dst, lines, 1, CV_PI/180, 80, 30, 10);
 
-	LSEG lSeg;
+	LSWMS::LSEG lSeg;
 	cv::Point p1, p2;
 
 	lSegs.clear();
@@ -105,7 +108,7 @@ void processPPHT(cv::Mat &img, std::vector<LSEG> &lSegs)
 		lSegs.push_back(lSeg);			
 	}	
 }
-void drawPPHT(cv::Mat &dst, std::vector<LSEG> &lSegs, cv::Scalar color)
+void drawPPHT(cv::Mat &dst, std::vector<LSWMS::LSEG> &lSegs, cv::Scalar color)
 {
 	for(size_t i=0; i<lSegs.size(); i++)
 	{		
@@ -135,7 +138,7 @@ int main(int argc, char** argv)
 	bool usePPHT = false;
 
 	// Line segments (LSWMS and PPHT)
-	std::vector<LSEG> lSegs, lSegsPPHT;
+	std::vector<LSWMS::LSEG> lSegs, lSegsPPHT;
 	std::vector<double> errors;
 
 	// Start showing help

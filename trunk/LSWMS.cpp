@@ -28,13 +28,14 @@
 
 #define ABS(a)	   (((a) < 0) ? -(a) : (a))
 
+const double LSWMS::PI_2 = CV_PI/2;
 const float LSWMS::ANGLE_MARGIN = 22.5f;
 const float LSWMS::MAX_ERROR = 0.19625f; // ((22.5/2)*CV_PI/180
 
 using namespace cv;
 using namespace std;
 
-void DIR_POINT::setTo14Quads()
+void LSWMS::DIR_POINT::setTo14Quads()
 {
 #if ( SHINY_PROFILER == 1 )
 	PROFILE_FUNC(); // begin profile until end of block
@@ -145,7 +146,7 @@ int LSWMS::run(const cv::Mat& _img, std::vector<LSEG>& _lSegs, std::vector<doubl
 	// 	RET_OK - no errors found
 	// 	RET_ERROR - errors found
 	// **********************************************
-		
+			
 #if ( SHINY_PROFILER == 1 )
 	PROFILE_FUNC(); // begin profile until end of block
 #endif
@@ -153,6 +154,8 @@ int LSWMS::run(const cv::Mat& _img, std::vector<LSEG>& _lSegs, std::vector<doubl
 	// Clear line segment container
 	_lSegs.clear();
 	_errors.clear();
+	m_M.setTo(255);
+	m_M(m_RoiRect).setTo(0);
 
 	// Input image to m_img
 	if(_img.channels() == 3)
@@ -250,7 +253,7 @@ int LSWMS::computeGradientMaps(const cv::Mat& _img, cv::Mat& _G, cv::Mat& _Gx, c
 	convertScaleAbs(_Gy, absGy, (double)1/8);
 
 	//cv::addWeighted(absGx, 0.5, absGy, 0.5, 0, G, CV_8U);
-	cv::add(absGx, absGy, _G);
+	cv::add(absGx, absGy, _G);	
 
 	// Obtain the threshold
 	cv::Scalar meanG = cv::mean(_G);
@@ -259,7 +262,7 @@ int LSWMS::computeGradientMaps(const cv::Mat& _img, cv::Mat& _G, cv::Mat& _Gx, c
 	else
 		m_MeanG = (int)meanG.val[0];
 	if(m_verbose) { printf(" computed: m_MeanG = %d\n", m_MeanG); }
-
+	
 	// Move from 2nd to 4th and from 3rd to 1st
 	// From 2nd to 4th, 	
 	//if( gx < 0 && gy > 0 ) {gx = -gx; gy = -gy;} // from 2 to 4
