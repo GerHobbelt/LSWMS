@@ -6,9 +6,10 @@
  * Contents: Creation, initialisation and usage of LSWMS object
  *           for the detection of line segments in images or videos
  *
- * Author:   Marcos Nieto <marcos.nieto.doncel@gmail.com>
+ * Author:   Marcos Nieto 
+ *			 marcos dot nieto dot doncel at gmail dot com
  *
- * Homepage: www.marcosnieto.net
+ * Homepage: http://marcosnietoblog.wordpress.com
  */
 
 #ifdef WIN32
