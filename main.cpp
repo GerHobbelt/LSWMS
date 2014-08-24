@@ -55,7 +55,7 @@ void help()
 		 << " * \n"
 		 << " * Author:Marcos Nieto\n"
 		 << " * http://marcosnietoblog.wordpress.com\n"
-		 << " * marcos.nieto.doncel@gmail.com\n"
+		 << " * marcos dot nieto dot doncel at gmail dot com\n"
 		 << " * \n"
 		 << " * Date:01/04/2012\n"
 		 << " **************************************************************************************************\n"
