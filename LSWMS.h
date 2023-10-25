@@ -34,6 +34,7 @@ enum {RET_OK, RET_ERROR};
 
 class LSWMS
 {
+public:
 	struct DIR_POINT
 	{
 		cv::Point pt;
