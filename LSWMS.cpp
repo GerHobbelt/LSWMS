@@ -19,6 +19,9 @@
 
 #include "LSWMS.h"
 
+#include "opencv2/imgproc/types_c.h"
+#include "opencv2/imgproc/imgproc_c.h"
+
 #ifdef linux
 	#include <stdio.h>
 #endif

@@ -28,6 +28,11 @@
 #include "opencv2/core/core.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/core/types_c.h"
+#include "opencv2/imgproc/types_c.h"
+#include "opencv2/imgproc/imgproc_c.h"
+#include "opencv2/videoio/legacy/constants_c.h"
+
 
 #include "LSWMS.h"
 
@@ -338,9 +343,9 @@ int main(int argc, char** argv)
 		cv::Scalar mean, stddev;
 		cv::meanStdDev(errors, mean, stddev);
 		if(!stillImage)
-			printf("Fr.#%d - LSWMS: %d lines / %.0f ms , Ang.Error: (Mean, Std)=(%.2f, %.2f)(deg)\n", frameNum, lSegs.size(), t, mean.val[0]*180/CV_PI, stddev.val[0]*180/CV_PI);
+			printf("Fr.#%d - LSWMS: %zd lines / %.0f ms , Ang.Error: (Mean, Std)=(%.2f, %.2f)(deg)\n", frameNum, lSegs.size(), t, mean.val[0]*180/CV_PI, stddev.val[0]*180/CV_PI);
 		else
-			printf("LSWMS: %d segments\nAngular Error: Mean = %.2f (deg), Std = %.2f (deg)\nProcess Time = %.0f (ms)\n", lSegs.size(), mean.val[0]*180/CV_PI, stddev.val[0]*180/CV_PI,  t);
+			printf("LSWMS: %zd segments\nAngular Error: Mean = %.2f (deg), Std = %.2f (deg)\nProcess Time = %.0f (ms)\n", lSegs.size(), mean.val[0]*180/CV_PI, stddev.val[0]*180/CV_PI,  t);
 		if( useWMS )
 			printf("\tUsing Weighted Mean-Shift\n");
 		
@@ -372,9 +377,9 @@ int main(int argc, char** argv)
 			drawPPHT(outputImgPPHT, lSegsPPHT, CV_RGB(0,0,255));
 
 			if(!stillImage)
-				printf("Fr.#%d - PPHT: %d lines / %.0f ms\n", frameNum, lSegsPPHT.size(), t);
+				printf("Fr.#%d - PPHT: %zd lines / %.0f ms\n", frameNum, lSegsPPHT.size(), t);
 			else
-				printf("\nPPHT: %d segments\nProcess Time = %.0f (ms)\n", lSegsPPHT.size(), t);
+				printf("\nPPHT: %zd segments\nProcess Time = %.0f (ms)\n", lSegsPPHT.size(), t);
 			// ++++++++++++++++++++++++++++++++++++++++	
 		}
 
